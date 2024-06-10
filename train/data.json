@@ -1,0 +1,142 @@
+{
+    "Superstudio Pi\u00f9": {
+        "description": "10,000 m\u00b2 with 10 spaces for various events.",
+        "spaces": [
+            {
+                "name": "Central Point",
+                "area": "5000 m\u00b2"
+            },
+            {
+                "name": "Art Point",
+                "area": "2000 m\u00b2"
+            },
+            {
+                "name": "Gallery",
+                "area": "1000 m\u00b2"
+            },
+            {
+                "name": "Daylight",
+                "area": "800 m\u00b2"
+            },
+            {
+                "name": "Lounge",
+                "area": "400 m\u00b2"
+            },
+            {
+                "name": "Club House",
+                "area": "300 m\u00b2"
+            },
+            {
+                "name": "Conference Room",
+                "area": "200 m\u00b2"
+            },
+            {
+                "name": "Meeting Room",
+                "area": "150 m\u00b2"
+            },
+            {
+                "name": "Studio",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Terrace",
+                "area": "50 m\u00b2"
+            }
+        ]
+    },
+    "Superstudio Maxi": {
+        "description": "10,000 m\u00b2 with 4 spaces for large-scale events.",
+        "spaces": [
+            {
+                "name": "Maxi Hall",
+                "area": "6000 m\u00b2"
+            },
+            {
+                "name": "Maxi Gallery",
+                "area": "2000 m\u00b2"
+            },
+            {
+                "name": "Maxi Lounge",
+                "area": "1500 m\u00b2"
+            },
+            {
+                "name": "Maxi Studio",
+                "area": "500 m\u00b2"
+            }
+        ]
+    },
+    "Superstudio Village": {
+        "description": "8,000 m\u00b2 with 3 spaces designed for film and photo shoots.",
+        "spaces": [
+            {
+                "name": "Village Hall",
+                "area": "5000 m\u00b2"
+            },
+            {
+                "name": "Village Studio",
+                "area": "2000 m\u00b2"
+            },
+            {
+                "name": "Village Lounge",
+                "area": "1000 m\u00b2"
+            }
+        ]
+    },
+    "Superstudio 13": {
+        "description": "1,700 m\u00b2 with 13 spaces ideal for photo studios.",
+        "spaces": [
+            {
+                "name": "Studio 1",
+                "area": "200 m\u00b2"
+            },
+            {
+                "name": "Studio 2",
+                "area": "200 m\u00b2"
+            },
+            {
+                "name": "Studio 3",
+                "area": "150 m\u00b2"
+            },
+            {
+                "name": "Studio 4",
+                "area": "150 m\u00b2"
+            },
+            {
+                "name": "Studio 5",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 6",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 7",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 8",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 9",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 10",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 11",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 12",
+                "area": "100 m\u00b2"
+            },
+            {
+                "name": "Studio 13",
+                "area": "50 m\u00b2"
+            }
+        ]
+    }
+}
