@@ -11,23 +11,23 @@ def load_data(file_path):
     return events_data
 
 
-def chat(message, events_data):
+def chat(message, studios, home, contacts, about):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": f"You are an assistant for Superstudio Events. Here is the information about the halls and events:\n{json.dumps(events_data, indent=2)}"},
+            {"role": "system", "content": f"You are a website assistant for Superstudio Events. The website home page content is:\n{json.dumps(home, indent=2)}. The website contacts and about pages:\n{json.dumps(contacts, indent=2)},{json.dumps(about, indent=2)}.Here is the information about the halls and studios:\n{json.dumps(studios, indent=2)}"},
             {"role": "user", "content": message}
         ],
-        max_tokens=50
+        max_tokens=150
     )
 
     return response.choices[0].message.content
 
 
-superstudio_events_data = load_data("../train/data.json")
+studios_data = load_data("../train/data.json")
+home_data = load_data("../train/website_home_data.json")
+contacts_data = load_data("../train/website_contacts_data.json")
+about_data = load_data("../train/website_about_data.json")
 
-# user_message = "Hi. May you please recommend me a place for the meeting for 10 persons?"
-user_message = "Hi. I need a place to make some photos, any ideas?"
-print(chat(user_message, superstudio_events_data))
-user_message = "How can I rent it?"
-print(chat(user_message, superstudio_events_data))
+user_message = input()
+print(chat(user_message, studios_data, home_data, contacts_data, about_data))
