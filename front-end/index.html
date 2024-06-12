@@ -7,26 +7,27 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to Our Chatbot</h1>
-        <p>Ask me anything and I'll do my best to assist you!</p>
-    </header>
-
     <main>
         <div class="chatbot-container">
             <div class="chatbot-header">
-                <h2>Chatbot</h2>
+                <h2>SuperStudio Booking Helper</h2>
             </div>
             <div class="chat-window" id="chat-window">
-                <div class="message bot-message">Hello! How can I help you today?</div>
+                <div class="message bot-message">
+                    Hello! I am a ChatGPT powered bot! I am here to help you find a room
+                    for your event😀
+                    Please provide me with some details:
+                    How many people are you planning to invite?
+                    For what kind of event you need a venue?😏
+                </div>
             </div>
             <div class="input-container">
+                <label for="user-input"></label>
                 <input type="text" id="user-input" placeholder="Type your message...">
                 <button id="send-button">Send</button>
             </div>
         </div>
     </main>
-
     <script src="scripts.js"></script>
 </body>
 </html>
