@@ -15,10 +15,10 @@ def chat(message, studios, home, contacts, about):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": f"You are a website assistant for Superstudio Events. The website home page content is:\n{json.dumps(home, indent=2)}. The website contacts and about pages:\n{json.dumps(contacts, indent=2)},{json.dumps(about, indent=2)}.Here is the information about the halls and studios:\n{json.dumps(studios, indent=2)}"},
+            {"role": "system", "content": f"You are a website assistant for Superstudio Events. The website contacts and about pages:\n{json.dumps(contacts, indent=2)},{json.dumps(about, indent=2)}.Here is the information about the halls and studios:\n{json.dumps(studios, indent=2)}"},
             {"role": "user", "content": message}
         ],
-        max_tokens=150
+        max_tokens=50
     )
 
     return response.choices[0].message.content
