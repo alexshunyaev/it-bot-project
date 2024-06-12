@@ -1,5 +1,12 @@
-// scripts.js
-document.getElementById('send-button').addEventListener('click', function() {
+document.getElementById('send-button').addEventListener('click', sendMessage);
+
+document.getElementById('user-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
     let userInput = document.getElementById('user-input').value;
     if (userInput.trim() !== '') {
         let userMessage = document.createElement('div');
@@ -19,4 +26,4 @@ document.getElementById('send-button').addEventListener('click', function() {
             document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
         }, 1000);
     }
-});
+}
