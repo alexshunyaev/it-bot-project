@@ -1,29 +1,33 @@
-import openai
+from openai import OpenAI
+import os
 import json
 
-openai.api_key = "your-openai-api-key"
+client = OpenAI()
 
 
 def load_data(file_path):
-    events_data = []
     with open(file_path, 'r') as file:
-        for line in file:
-            event = json.loads(line.strip())
-            events_data.append(event)
+        events_data = json.load(file)
     return events_data
 
 
-def chat(user_message):
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=f"You are an assistant for Superstudio Events. Here is the information about the halls and events:\n{superstudio_events_data}\nAnswer the user's question based on this information: {user_message}",
-        max_tokens=150
+def chat(message, events_data):
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": f"You are an assistant for Superstudio Events. Here is the information about the halls and events:\n{json.dumps(events_data, indent=2)}"},
+            {"role": "user", "content": message}
+        ],
+        max_tokens=50
     )
-    
-    return response.choices[0].text.strip()
+
+    return response.choices[0].message.content
 
 
-superstudio_events_data = load_data("train/data.json")
+superstudio_events_data = load_data("../train/data.json")
 
-user_message = "Hi."
-print(chat(user_message))
+# user_message = "Hi. May you please recommend me a place for the meeting for 10 persons?"
+user_message = "Hi. I need a place to make some photos, any ideas?"
+print(chat(user_message, superstudio_events_data))
+user_message = "How can I rent it?"
+print(chat(user_message, superstudio_events_data))
