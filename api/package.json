@@ -4,7 +4,8 @@
   "description": "A backend server for a chatbot using OpenAI API",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "azure"
   },
   "dependencies": {
     "axios": "^0.21.4",
