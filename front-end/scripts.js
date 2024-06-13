@@ -18,7 +18,7 @@ async function sendMessage() {
         document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
 
         try {
-            const response = await fetch('http://your-azure-app-url/api/chat', {
+            const response = await fetch('https://polite-mushroom-08fa3f003.5.azurestaticapps.net', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
