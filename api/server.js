@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'front-end'))); // Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, '../front-end/public'))); // Serve static files from the "public" directory
 
 app.post('/api/chat', async (req, res) => {
     const userMessage = req.body.message;
@@ -39,7 +39,7 @@ app.post('/api/chat', async (req, res) => {
 
 // Serve the index.html file for the root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
+    res.sendFile(path.join(__dirname, '../front-end/public', 'index.html'));
 });
 
 app.listen(port, () => {
