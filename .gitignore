@@ -16,4 +16,4 @@ npm-debug.log
 yarn-error.log
 
 # Environment Variables
-.env
+api_key.env
