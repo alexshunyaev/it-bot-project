@@ -7,7 +7,6 @@ yarn-error.log*
 
 # Misc
 .DS_Store
-.github/
 .fleet/
 
 # Node.js
