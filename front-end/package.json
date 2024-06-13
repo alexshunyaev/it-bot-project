@@ -4,7 +4,7 @@
   "main": "scripts.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "azure"
+    "build": "react-scripts build"
   },
   "keywords": [],
   "author": "",
