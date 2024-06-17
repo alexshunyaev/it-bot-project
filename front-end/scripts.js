@@ -1,8 +1,11 @@
-//document.getElementById('userInput').addEventListener('keypress', function(event) {
-//    if (event.key === 'Enter') {
-//        sendMessage();
-//    }
-//});
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('userInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the default action (adding a new line)
+            document.getElementById('sendButton').click();
+        }
+    });
+});
 
 async function sendMessage() {
             const prompt = document.getElementById('userInput').value;
