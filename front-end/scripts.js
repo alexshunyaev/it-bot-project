@@ -1,15 +1,15 @@
-document.getElementById('userInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
-});
+//document.getElementById('userInput').addEventListener('keypress', function(event) {
+//    if (event.key === 'Enter') {
+//        sendMessage();
+//    }
+//});
 
 async function sendMessage() {
             const prompt = document.getElementById('userInput').value;
             const responseDiv = document.getElementById('response');
 
             try {
-                const response = await fetch('https://polite-mushroom-08fa3f003.5.azurestaticapps.net/chat', {
+                const response = await fetch('https://polite-mushroom-08fa3f003.5.azurestaticapps.net/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
