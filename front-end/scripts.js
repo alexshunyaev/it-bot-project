@@ -14,7 +14,7 @@ async function sendMessage() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ message: prompt })
+                    body: JSON.stringify({ prompt })
                 });
 
                 if (response.ok) {
