@@ -12,7 +12,7 @@ async function sendMessage() {
             const responseDiv = document.getElementById('response');
 
             try {
-                const response = await fetch('https://polite-mushroom-08fa3f003.5.azurestaticapps.net/chat', {
+                const response = await fetch('/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
