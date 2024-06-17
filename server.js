@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'front-end')));
 
 
 require('dotenv').config();
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // Replace with your OpenAI API key
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 app.post('/chat', async (req, res) => {
     const { prompt } = req.body;
