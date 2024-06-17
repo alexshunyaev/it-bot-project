@@ -8,6 +8,13 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
+const fs = require('fs');
+
+const studios = JSON.parse(fs.readFileSync('train/data.json', 'utf8'));
+const home = JSON.parse(fs.readFileSync('train/website_home_data.json', 'utf8'));
+const contacts = JSON.parse(fs.readFileSync('train/website_contacts_data.json', 'utf8'));
+const about = JSON.parse(fs.readFileSync('train/website_about_data.json', 'utf8'));
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -24,7 +31,8 @@ app.post('/chat', async (req, res) => {
     try {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: prompt }]
+            messages: [{ "role": "system", "content": `You are a website assistant for Superstudio Events. The website contacts and about pages:\n${JSON.stringify(contacts, null, 2)},${JSON.stringify(about, null, 2)}.Here is the information about the halls and studios:\n${JSON.stringify(studios, null, 2)}` },
+      { "role": "user", "content": prompt }]
         }, {
             headers: {
                 'Authorization': `Bearer ${OPENAI_API_KEY}`,
