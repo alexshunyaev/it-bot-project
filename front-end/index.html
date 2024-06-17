@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperStudio Bot</title>
+    <title>Stylish Chatbot Page</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
 </head>
 <body>
     <main>
@@ -13,21 +14,18 @@
                 <h2>SuperStudio Booking Helper</h2>
             </div>
             <div class="chat-window" id="chat-window">
-                <div class="message bot-message">
+                <div class="response">
                     Hello! I am a ChatGPT powered bot! I am here to help you find a room
                     for your event😀
                     Please provide me with some details:
                     How many people are you planning to invite?
                     For what kind of event you need a venue?😏
                 </div>
+                <div id="response"></div>
             </div>
-            <div class="input-container">
-                <label for="user-input"></label>
-                <input type="text" id="user-input" placeholder="Type your message...">
-                <button id="send-button">Send</button>
-            </div>
+            <textarea rows="4" cols="50" id="userInput" placeholder="Type your message..."></textarea>
+            <button onclick="sendMessage()">Send</button>
         </div>
     </main>
-    <script src="scripts.js"></script>
 </body>
 </html>

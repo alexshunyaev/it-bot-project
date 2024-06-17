@@ -1,47 +1,44 @@
 const express = require('express');
 const axios = require('axios');
-const path = require('path');
+const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config();
+const path = require('path');
+
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
+app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'front-end'))); // Serve static files from the "front-end" directory
 
-app.post('/api/chat', async (req, res) => {
-    const userMessage = req.body.message;
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'front-end')));
+
+
+require('dotenv').config();
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // Replace with your OpenAI API key
+
+app.post('/chat', async (req, res) => {
+    const { prompt } = req.body;
 
     try {
-        const response = await axios.post(
-            'https://api.openai.com/v1/engines/davinci-codex/completions',
-            {
-                prompt: userMessage,
-                max_tokens: 150,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                },
+        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: prompt }]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
             }
-        );
+        });
 
-        const botMessage = response.data.choices[0].text.trim();
-        res.json({ message: botMessage });
+        res.json(response.data.choices[0].message.content);
     } catch (error) {
-        console.error('Error communicating with OpenAI API:', error);
-        res.status(500).send('Error communicating with OpenAI API');
+        console.error(error);
+        res.status(500).send('Error communicating with ChatGPT');
     }
 });
 
-// Serve the index.html file for the root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
-});
-
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
