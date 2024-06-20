@@ -51,10 +51,19 @@ header p {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: #ff6f61;
+    align-self: flex-end;
+    text-align: right;
 }
 
 .bot-message {
     background-color: #444;
+    align-self: flex-start;
     text-align: left;
 }
 

@@ -8,26 +8,50 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function sendMessage() {
-            const prompt = document.getElementById('userInput').value;
-            const responseDiv = document.getElementById('response');
+    const prompt = document.getElementById('userInput').value;
+    if (!prompt) return; // Prevent sending empty messages
 
-            try {
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ prompt })
-                });
+    const chatWindow = document.getElementById('chat-window');
 
-                if (response.ok) {
-                    const data = await response.json();
-                    responseDiv.innerText = data;
-                } else {
-                    responseDiv.innerText = 'Error communicating with ChatGPT';
-                }
-            } catch (error) {
-                console.error(error);
-                responseDiv.innerText = 'Error communicating with ChatGPT';
-            }
+    // Append user message
+    const userMessageDiv = document.createElement('div');
+    userMessageDiv.classList.add('message', 'user-message');
+    userMessageDiv.innerText = prompt;
+    chatWindow.appendChild(userMessageDiv);
+
+    document.getElementById('userInput').value = ''; // Clear input field
+
+    try {
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.classList.add('message', 'bot-message');
+            botMessageDiv.innerText = data;
+            chatWindow.appendChild(botMessageDiv);
+        } else {
+            showError('Error communicating with ChatGPT');
         }
+    } catch (error) {
+        console.error(error);
+        showError('Error communicating with ChatGPT');
+    }
+
+    // Scroll to the bottom of the chat window
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function showError(message) {
+    const chatWindow = document.getElementById('chat-window');
+    const errorDiv = document.createElement('div');
+    errorDiv.classList.add('message', 'error-message');
+    errorDiv.innerText = message;
+    chatWindow.appendChild(errorDiv);
+}
