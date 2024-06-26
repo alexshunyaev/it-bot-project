@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function sendMessage() {
+    fetch('https://example.com/data') .then(response => response.json()) .then(data => console.log(data)) .catch(error => console.error(error));
+    fetch('https://example.com/data', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'John', email: 'john@example.com' }) }) .then(response => response.json()) .then(data => console.log(data)) .catch(error => console.error(error)); 
     const prompt = document.getElementById('userInput').value;
     if (!prompt) return; // Prevent sending empty messages
 
