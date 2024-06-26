@@ -22,7 +22,7 @@ app.use(cors());
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'front-end')));
 
-app.post('/chat', async (req, res) => {
+app.get('/chat', async (req, res) => {
     const { prompt } = req.body;
 
     try {
