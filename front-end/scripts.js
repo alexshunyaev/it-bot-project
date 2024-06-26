@@ -25,6 +25,7 @@ async function sendMessage() {
 
     try {
         const response = await fetch('/chat', {
+            mode: 'no-cors',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
