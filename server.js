@@ -5,12 +5,17 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const http = require('http'); //I tryied to use socket.io documentation to create a server, but nope, so http, will fix later
-const socketio = require('socket.io'); //Now we have websockets!
+const { Server } = require("socket.io"); //Now we have websockets!
 require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = new Server(server, {
+    cors: {
+      origin: 'http://localhost:3000',
+      methods:['GET','POST']
+    }
+  })
 const port = 3000;
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -62,6 +67,6 @@ io.on('connection', (socket) => {
     //});
 });
 
-http.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
