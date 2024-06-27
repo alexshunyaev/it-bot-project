@@ -4,15 +4,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const http = require('http'); 
-const socketIO = require('socket.io'); 
+const http = require('http');  
 require('dotenv').config();
 
 const port = 3000;
 const app = express();
-
 const server = http.createServer(app);
-const io = socketIO(server);
+const { Server } = require('socket.io');
+const io = new Server(server);
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
+});
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -67,9 +70,9 @@ io.on('connection', (socket) => {
     });
 
     //We don't really need this, but it logs when a client disconnects
-    //socket.on('disconnect', () => {  
-    //  console.log('Client disconnected');
-    //});
+    socket.on('disconnect', () => {  
+        console.log('Client disconnected');
+    });
 });
 
 server.listen(port, () => {
