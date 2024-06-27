@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'front-end')));
 
 
 io.on('connection', (socket) => {
-    //console.log('New client connected');
+    console.log('New client connected');
 
     socket.on('BotRequest', async (prompt) => { //Waiting for the client to send a message
         try {
