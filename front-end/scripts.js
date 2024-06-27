@@ -1,58 +1,44 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('userInput').addEventListener('keydown', function(event) {
+document.addEventListener('DOMContentLoaded', function () {
+    const socket = io();
+
+    document.getElementById('userInput').addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             event.preventDefault(); // Prevent the default action (adding a new line)
             document.getElementById('sendButton').click();
         }
     });
-});
 
-async function sendMessage() {
-    const prompt = document.getElementById('userInput').value;
-    if (!prompt) return; // Prevent sending empty messages
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
 
-    const chatWindow = document.getElementById('chat-window');
+    socket.on('BotResponse', function (message) { //Waiting for the server to send the response message
+        displayMessage(message, 'bot-message');
+    });
 
-    // Append user message
-    const userMessageDiv = document.createElement('div');
-    userMessageDiv.classList.add('message', 'user-message');
-    userMessageDiv.innerText = prompt;
-    chatWindow.appendChild(userMessageDiv);
+    socket.on('BotError', function (message) { //Waiting for the server to send the error message
+        showError(message);
+    });
 
-    document.getElementById('userInput').value = ''; // Clear input field
-
-    try {
-        const response = await fetch('/chat', {
-            mode: 'no-cors',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ prompt })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            const botMessageDiv = document.createElement('div');
-            botMessageDiv.classList.add('message', 'bot-message');
-            botMessageDiv.innerText = data;
-            chatWindow.appendChild(botMessageDiv);
-        } else {
-            showError('Error communicating with ChatGPT');
-        }
-    } catch (error) {
-        console.error(error);
-        showError('Error communicating with ChatGPT');
+    async function displayMessage(message, className) {
+        const chatWindow = document.getElementById('chat-window');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', className);
+        messageDiv.innerText = message;
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    // Scroll to the bottom of the chat window
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
+    async function sendMessage() { //Before we were using axios to send the message to the server, now we are using socket.emit
+        const prompt = document.getElementById('userInput').value;
+        if (!prompt) return; // Prevent sending empty messages
 
-function showError(message) {
-    const chatWindow = document.getElementById('chat-window');
-    const errorDiv = document.createElement('div');
-    errorDiv.classList.add('message', 'error-message');
-    errorDiv.innerText = message;
-    chatWindow.appendChild(errorDiv);
-}
+
+        displayMessage(prompt, 'user-message'); //Now it's a sepatate function
+        document.getElementById('userInput').value = ''; // Clear input field
+
+        socket.emit('BotRequest', prompt); //Sending the message to the server
+    }
+
+    function showError(message) {
+        displayMessage(message, 'error-message');
+    }
+});

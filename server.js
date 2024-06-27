@@ -4,9 +4,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const http = require('http'); //I tryied to use socket.io documentation to create a server, but nope, so http, will fix later
+const socketio = require('socket.io'); //Now we have websockets!
 require('dotenv').config();
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 const port = 3000;
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -23,34 +27,41 @@ app.use((req, res, next) => {
     next();
 });
 
-
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'front-end')));
 
-app.post('/chat', async (req, res) => {
-    const { prompt } = req.body;
 
-    try {
-        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: 'gpt-3.5-turbo',
-            messages: [
-                { role: 'system', content: `You are a website assistant for Superstudio Events. The website contacts and about pages:\n${JSON.stringify(contacts, null, 2)},${JSON.stringify(about, null, 2)}. Here is the information about the halls and studios:\n${JSON.stringify(studios, null, 2)}` },
-                { role: 'user', content: prompt }
-            ]
-        }, {
-            headers: {
-                'Authorization': `Bearer ${OPENAI_API_KEY}`,
-                'Content-Type': 'application/json'
-            }
-        });
+io.on('connection', (socket) => {
+    //console.log('New client connected');
 
-        res.json(response.data.choices[0].message.content);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error communicating with ChatGPT');
-    }
+    socket.on('BotRequest', async (prompt) => { //Waiting for the client to send a message
+        try {
+            const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    { role: 'system', content: `You are a website assistant for Superstudio Events. The website contacts and about pages:\n${JSON.stringify(contacts, null, 2)},${JSON.stringify(about, null, 2)}. Here is the information about the halls and studios:\n${JSON.stringify(studios, null, 2)}` },
+                    { role: 'user', content: prompt }
+                ]
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            socket.emit('BotResponse', response.data.choices[0].message.content);
+        } catch (error) {
+            console.error(error);
+            socket.emit('BotError', 'Error communicating with ChatGPT');
+        }
+    });
+
+    //We don't really need this, but it logs when a client disconnects
+    //socket.on('disconnect', () => {  
+    //  console.log('Client disconnected');
+    //});
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
