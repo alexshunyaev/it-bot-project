@@ -4,15 +4,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const http = require('http'); //I tryied to use socket.io documentation to create a server, but nope, so http, will fix later
-const socketIO = require('socket.io'); //Now we have websockets!
+const http = require('http'); 
+const socketIO = require('socket.io'); 
 require('dotenv').config();
 
 const port = 3000;
 const app = express();
-const server = express().use(app).listen(port);
-const io = socketIO(server);
 
+// Create HTTP server and bind it with socket.io
+const server = http.createServer(app);
+const io = socketIO(server);
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -22,11 +23,13 @@ const contacts = JSON.parse(fs.readFileSync('train/website_contacts_data.json', 
 const about = JSON.parse(fs.readFileSync('train/website_about_data.json', 'utf8'));
 
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+app.use(cors());
+
+//app.use((req, res, next) => {
+//    res.header('Access-Control-Allow-Origin', '*');
+//    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//    next();
+//});
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'front-end')));
@@ -63,6 +66,6 @@ io.on('connection', (socket) => {
     //});
 });
 
-//server.listen(port, () => {
- //   console.log(`Server is running on http://localhost:${port}`);
-//});
+server.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
