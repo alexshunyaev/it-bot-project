@@ -11,7 +11,6 @@ require('dotenv').config();
 const port = 3000;
 const app = express();
 
-// Create HTTP server and bind it with socket.io
 const server = http.createServer(app);
 const io = socketIO(server);
 
@@ -23,7 +22,14 @@ const contacts = JSON.parse(fs.readFileSync('train/website_contacts_data.json', 
 const about = JSON.parse(fs.readFileSync('train/website_about_data.json', 'utf8'));
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+//app.use(bodyParser.json());
+//app.use(cors());
 
 //app.use((req, res, next) => {
 //    res.header('Access-Control-Allow-Origin', '*');

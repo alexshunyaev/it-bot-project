@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const socket = io();
+    const socket = io('http://localhost:3000');
 
     document.getElementById('userInput').addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
