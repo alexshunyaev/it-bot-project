@@ -11,11 +11,23 @@ const port = 3000;
 const app = express();
 const server = http.createServer(app);
 const { Server } = require('socket.io');
+const { useAzureSocketIO } = require("@azure/web-pubsub-socket.io");
 const io = new Server(server);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
 });
+
+//TODO: Azure works with socket.io, but requires some additional configuration
+//https://learn.microsoft.com/en-us/answers/questions/1638124/flask-socketio-not-working-in-azure-app-service check this out
+//https://learn.microsoft.com/ru-ru/azure/azure-web-pubsub/socketio-quickstart and this
+//https://learn.microsoft.com/ru-ru/azure/azure-web-pubsub/socketio-migrate-from-self-hosted this too
+
+
+//useAzureSocketIO(io, {
+//    hub: "Hub", 
+//    connectionString: process.argv[2]
+//});
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -44,7 +56,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'front-end')));
 
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log('New client connected');
 
     socket.on('BotRequest', async (prompt) => { //Waiting for the client to send a message

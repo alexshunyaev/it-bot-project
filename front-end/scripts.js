@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var socket = io(); 
+    const io = require('socket.io-client'); //Importing the socket.io-client library
+    const socket = io("<web-pubsub-socketio-endpoint>", {
+        path: "/clients/socketio/hubs/Hub",
+    });
 
     document.getElementById('userInput').addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
