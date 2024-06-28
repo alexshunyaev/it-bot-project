@@ -1,10 +1,17 @@
     // Import the socket.io-client library asynchronously
     // IDK if it will work
     // Changed the import socket.io version to 4.7.5, maybe it will work
-import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {  
-    const socket = io("https://it-bot.webpubsub.azure.com", {
+    //import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {  
+    //const socket = io("https://it-bot.webpubsub.azure.com", {
+    //    path: "/clients/socketio/hubs/Hub",
+    //    transports: ['websocket'], // Add this line to specify the transport method
+    //});
+
+    import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js" 
+    const socket = io("https://it-bot.webpubsub.azure.com", {  
         path: "/clients/socketio/hubs/Hub",
-    });
+        transports: ['websocket'], // Add this line to specify the transport method
+    });   
 
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('userInput').addEventListener('keydown', function (event) {
@@ -48,6 +55,6 @@ import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {
         }
     });
 
-}).catch(error => {
-    console.error('Error loading socket.io-client:', error);
-});
+//}).catch(error => {
+//    console.error('Error loading socket.io-client:', error);
+//});
