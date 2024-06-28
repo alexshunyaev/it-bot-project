@@ -8,12 +8,14 @@
     //});
 
     import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js" 
-    const socket = io("https://it-bot.webpubsub.azure.com", {  
-        path: "/clients/socketio/hubs/Hub",
-        transports: ['websocket'], // Add this line to specify the transport method
-    });   
+
 
     document.addEventListener('DOMContentLoaded', function () {
+        const socket = io("https://it-bot.webpubsub.azure.com", {  
+            path: "/clients/socketio/hubs/Hub",
+            transports: ['websocket'], // Add this line to specify the transport method
+        });   
+        
         document.getElementById('userInput').addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent the default action (adding a new line)
@@ -21,6 +23,7 @@
             }
         });
 
+        
         document.getElementById('sendButton').addEventListener('click', sendMessage);
 
         socket.on('BotResponse', function (message) { // Waiting for the server to send the response message
