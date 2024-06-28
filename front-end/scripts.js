@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Import the socket.io-client library asynchronously
     // IDK if it will work
-    import('https://cdn.socket.io/4.0.0/socket.io.min.js').then(({ io }) => {
+    // Changed the import socket.io version to 4.7.5, maybe it will work
+    import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {
         const socket = io("https://it-bot.webpubsub.azure.com", {
             path: "/clients/socketio/hubs/Hub",
         });
