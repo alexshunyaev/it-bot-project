@@ -1,12 +1,18 @@
+import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {  
+    const socket = io("https://it-bot.webpubsub.azure.com", {
+        path: "/clients/socketio/hubs/Hub",
+    });
+
+    }).catch(error => {
+    console.error('Error loading socket.io-client:', error);
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     // Import the socket.io-client library asynchronously
     // IDK if it will work
     // Changed the import socket.io version to 4.7.5, maybe it will work
-    import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {
-        const socket = io("https://it-bot.webpubsub.azure.com", {
-            path: "/clients/socketio/hubs/Hub",
-        });
 
+        
         document.getElementById('userInput').addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent the default action (adding a new line)
@@ -46,7 +52,5 @@ document.addEventListener('DOMContentLoaded', function () {
         function showError(message) {
             displayMessage(message, 'error-message');
         }
-    }).catch(error => {
-        console.error('Error loading socket.io-client:', error);
-    });
+
 });
