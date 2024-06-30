@@ -43,12 +43,20 @@ app.use(cors({
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'front-end')));
 
+const keywordSpotting = require('./keywordSpotter');
 
 io.on('connection', (socket) => {
     console.log('New client connected');
 
     socket.on('BotRequest', async (prompt) => { //Waiting for the client to send a message
-        try {
+        console.log(prompt);
+
+        //чекает на кейворды в prompt, высирает пару на кейворд из keywordSpotter.js
+        const commands = keywordSpotting(prompt);
+        console.log('Identified keywords:', commands);
+        console.log('Done!');
+
+        /*try {
             const response = await axios.post('https://api.openai.com/v1/chat/completions', {
                 model: 'gpt-3.5-turbo',
                 messages: [
@@ -66,7 +74,7 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.error(error);
             socket.emit('BotError', 'Error communicating with ChatGPT');
-        }
+        }*/
     });
 
     //We don't really need this, but it logs when a client disconnects
