@@ -3,9 +3,9 @@
 function keywordSpotting(prompt) {
     //сюда насрать кейвордов
     const keywordMap = {
-        'avaliable': 'avalaability_check',
-        'restrooms': 'restrooms_checlk',
-        'price': 'price_check'
+        'avaliable': 'To find out if the vanue is avaliablie we recommend you contact our manager.',
+        'restrooms': 'Most venues have at least 1 restroom on the location.',
+        'price': 'Price on the venue rent depends on meny factors so we recommend you contact our manager.'
     };
 
     const foundCommands = Object.keys(keywordMap)
