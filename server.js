@@ -16,6 +16,8 @@ const io = new Server(server);
 const { useAzureSocketIO } = require("@azure/web-pubsub-socket.io");
 
 // Configure Azure Web PubSub with the connection string from environment variable
+
+
 useAzureSocketIO(io, {
     hub: "Hub",
     connectionString: process.env.AZURE_PUBSUB_CONNECTION_STRING
@@ -44,8 +46,29 @@ app.use(express.static(path.join(__dirname, 'front-end')));
 
 io.on('connection', async (socket) => {
     console.log('New client connected');
+    console.log('Client ID:', socket.id);
+    console.log('Total clients connected:', io.engine.clientsCount);
+    console.log('Client chat histoy will be stored in the', socket.id + '.txt file');
+
+    
+    /* // RM to save the chat history in a file
+    fs.appendFile(socket.id + '.txt', '', (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+    */
 
     socket.on('BotRequest', async (prompt) => { // Waiting for the client to send a message
+        
+        /* // RM to save the chat history in a file
+        fs.appendFile(socket.id + '.txt', 'User: ' + prompt + '\n', (err) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+        */
+
         try {
             const response = await axios.post('https://api.openai.com/v1/chat/completions', {
                 model: 'gpt-3.5-turbo',
@@ -59,10 +82,26 @@ io.on('connection', async (socket) => {
                     'Content-Type': 'application/json'
                 }
             });
+            
+             /* // RM to save the chat history in a file
+            fs.appendFile(socket.id + '.txt', 'Bot: ' + response.data.choices[0].message.content + '\n', (err) => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            */
 
             socket.emit('BotResponse', response.data.choices[0].message.content);
         } catch (error) {
             console.error(error);
+           
+            /* // RM to save the chat history in a file
+            fs.appendFile(socket.id + '.txt', 'Bot: Error communicating with ChatGPT\n', (err) => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+           */
             socket.emit('BotError', 'Error communicating with ChatGPT');
         }
     });
