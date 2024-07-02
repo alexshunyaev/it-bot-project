@@ -60,7 +60,8 @@ io.on('connection', (socket) => {
                 socket.emit('BotResponse', commands[step]);
             }
         } else {
-            socket.emit('BotResponse', 'Could you repeat the question please?');
+            // HARD FALLBACK (?)
+            socket.emit('BotResponse', 'I could understand the question. Can you repeat please?');
         }
 
     });
