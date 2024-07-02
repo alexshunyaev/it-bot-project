@@ -55,26 +55,14 @@ io.on('connection', (socket) => {
         const commands = keywordSpotting(prompt);
         console.log('Identified keywords:', commands);
         console.log('Done!');
+        if (commands != 'keywords_not_found') {
+            for (let step = 0; step < commands.length; step++) {
+                socket.emit('BotResponse', commands[step]);
+            }
+        } else {
+            socket.emit('BotResponse', 'Could you repeat the question please?');
+        }
 
-        /*try {
-            const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    { role: 'system', content: `You are a website assistant for Superstudio Events. The website contacts and about pages:\n${JSON.stringify(contacts, null, 2)},${JSON.stringify(about, null, 2)}. Here is the information about the halls and studios:\n${JSON.stringify(studios, null, 2)}` },
-                    { role: 'user', content: prompt }
-                ]
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            socket.emit('BotResponse', response.data.choices[0].message.content);
-        } catch (error) {
-            console.error(error);
-            socket.emit('BotError', 'Error communicating with ChatGPT');
-        }*/
     });
 
     //We don't really need this, but it logs when a client disconnects
