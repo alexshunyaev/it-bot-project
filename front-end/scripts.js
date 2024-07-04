@@ -7,16 +7,16 @@
     //    transports: ['websocket'], // Add this line to specify the transport method
     //});
 
-    import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js"
+    //import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js"
 
 
     document.addEventListener('DOMContentLoaded', function () {
-//        const  = ('socket.io-client');
-          const socket = io();
-//        const socket = io("https://it-bot.webpubsub.azure.com", {
-//            path: "/clients/socketio/hubs/Hub",
-//            transports: ['websocket'], // Add this line to specify the transport method
-//        });
+        //const io = ('socket.io-client');
+//          const socket = io();
+        const socket = io("https://it-bot.webpubsub.azure.com", {
+            path: "/clients/socketio/hubs/Hub",
+            transports: ['websocket'], // Add this line to specify the transport method
+        });
 
         document.getElementById('userInput').addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
