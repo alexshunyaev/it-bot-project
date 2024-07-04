@@ -29,7 +29,7 @@
         });
 
         socket.on('connect_error', (error) => {
-            console.error('WebSocket connection failed:', error.message);
+            console.error('WebSocket connection failed:', error.stack);
             showError('WebSocket connection failed. Please try again later.');
         });
 
