@@ -4,8 +4,10 @@ function keywordSpotting(prompt) {
     const keywordMap = {};
     // EXAMPLES OF KEYWORDS AND SOFT FALLBACK (?) 
     keywordMap['available', 'occupied'] = 'To find out if the venue is available, we recommend you contact our manager.';
-    keywordMap['price', 'payment'] = 'Price on the venue rent depends on many factors such as date, time, and type of occasion, so we recommend you contact our manager.';
+    keywordMap['price', 'payment', 'discount'] = 'Price on the venue rent depends on many factors such as date, time, and type of occasion, so we recommend you contact our manager.';
+    keywordMap['date', 'times'] = 'Unfortunately, the information quickly changes so I suggest you give us a call. '
     
+
     // EXAMPLES OF KEYWORDS AND ANSWERS
     keywordMap['capacity'] = 'Most venues have different capacities for different types of occasions: dinner, standing, and sitting.';
     keywordMap['vr', 'virtual reality'] = 'Our company rents out VR sets and other equipment for virtual reality events.';
