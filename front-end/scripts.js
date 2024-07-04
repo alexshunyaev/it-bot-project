@@ -56,6 +56,3 @@
             displayMessage(message, 'error-message');
         }
     });
-}).catch(error => {
-    console.error('Error loading socket.io-client:', error);
-});
