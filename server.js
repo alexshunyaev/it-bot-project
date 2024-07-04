@@ -13,15 +13,15 @@ const app = express();
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
-//const { useAzureSocketIO } = require("@azure/web-pubsub-socket.io");
+const { useAzureSocketIO } = require("@azure/web-pubsub-socket.io");
 
-// Configure Azure Web PubSub with the connection string from environment variable
+//Configure Azure Web PubSub with the connection string from environment variable
 
 
-//useAzureSocketIO(io, {
-//    hub: "Hub",
-//    connectionString: process.env.AZURE_PUBSUB_CONNECTION_STRING
-//});
+useAzureSocketIO(io, {
+    hub: "Hub",
+    connectionString: process.env.AZURE_PUBSUB_CONNECTION_STRING
+});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
