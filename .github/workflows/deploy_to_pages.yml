@@ -1,0 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Change to your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+      with:
+        repository: username/repo-with-index
+        path: source
+
+    - name: Checkout target repository
+      uses: actions/checkout@v2
+      with:
+        repository: username/gh-pages-repo
+        path: target
+
+    - name: Copy files to target repository
+      run: |
+        cp -r source/front-end/index.html target/
+        cd target
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add index.html
+        git commit -m "Automated deployment from source repository"
+        git push origin main  # or gh-pages for project sites
