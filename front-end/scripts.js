@@ -1,16 +1,6 @@
-// Import the socket.io-client library asynchronously
-//import('https://cdn.socket.io/4.7.5/socket.io.min.js').then(({ io }) => {
-//    const socket = io("https://it-bot.webpubsub.azure.com", {
-//        path: "/clients/socketio/hubs/Hub",
-//        transports: ['websocket'], // Specify the transport method
-//    });
-
     document.addEventListener('DOMContentLoaded', function () {
-        const socket = io("https://it-bot.webpubsub.azure.com", {
-            path: "/clients/socketio/hubs/Hub",
-            transports: ['websocket'], // Specify the transport method
-        });
-
+        const socket = io();
+        
         document.getElementById('userInput').addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent the default action (adding a new line)
@@ -28,7 +18,11 @@
             showError(message);
         });
 
-        socket.on('connect_error', (error) => {
+        socket.on('cookie_check', (message) => {
+            displayMessage(message, 'bot-message');
+        });
+
+        socket.on('connect_error', (error) => { // Handle connection errors
             console.error('WebSocket connection failed:', error.stack);
             showError('WebSocket connection failed. Please try again later.');
         });

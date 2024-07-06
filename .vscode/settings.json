@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/5bf30d35-e131-48dd-91b6-de167b7c2f85/resourceGroups/Bot-proj/providers/Microsoft.Web/sites/Bot-proj",
+    "appService.deploySubpath": "."
+}
