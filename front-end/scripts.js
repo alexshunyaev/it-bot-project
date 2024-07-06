@@ -18,10 +18,6 @@
             showError(message);
         });
 
-        socket.on('cookie_check', (message) => {
-            displayMessage(message, 'bot-message');
-        });
-
         socket.on('connect_error', (error) => { // Handle connection errors
             console.error('WebSocket connection failed:', error.stack);
             showError('WebSocket connection failed. Please try again later.');
