@@ -36,9 +36,24 @@ io.on('connection', async (socket) => {
     console.log('New client connected');
     console.log('Client ID:', socket.id);
     console.log('Total clients connected:', io.engine.clientsCount);
-    
+
+    socket.on('cookie', (cookie) => {
+        console.log('Cookie:', cookie);
+        socket.emit('client-info', 'Seems like you are new here. Please provide your name and phone number, so we can assist you better.');
+    });
+
+    socket.on('got_cookie', (cookie) => {
+        console.log('Cookie set:', cookie);
+        socket.emit('BotResponse', 'Thank you for providing your contact information. How can I assist you today?');
+        try {
+            fs.appendFileSync('client_contact.txt', `${JSON.stringify(cookie)}\n`);
+        } catch (error) {
+            console.error('Error writing to file:', error);
+        }
+    });
+
     socket.on('BotRequest', async (prompt) => { // Waiting for the client to send a message
-        
+
         try {
             const response = await axios.post('https://api.openai.com/v1/chat/completions', {
                 model: 'gpt-3.5-turbo',
@@ -52,7 +67,7 @@ io.on('connection', async (socket) => {
                     'Content-Type': 'application/json'
                 }
             });
-            
+
 
 
             socket.emit('BotResponse', response.data.choices[0].message.content);
@@ -64,7 +79,7 @@ io.on('connection', async (socket) => {
     });
 
     // Logs when a client disconnects
-    socket.on('disconnect', () => {  
+    socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
 });
