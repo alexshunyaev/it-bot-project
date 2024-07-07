@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the socket connection
     const socket = io();
 
+    // Event listener for pressing "Enter" key in input field
     document.getElementById('userInput').addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             event.preventDefault(); // Prevent the default action (adding a new line)
@@ -8,23 +10,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Event listener for clicking the send button
     document.getElementById('sendButton').addEventListener('click', sendMessage);
 
+    // Event listener for receiving bot responses
     socket.on('BotResponse', function (message) {
         displayMessage(message, 'bot-message');
     });
 
+    // Event listener for receiving bot errors
     socket.on('BotError', function (message) {
         showError(message);
     });
 
-    socket.on('connect_error', (error) => { // Handle connection errors
+    // Handle connection errors
+    socket.on('connect_error', (error) => {
         console.error('WebSocket connection failed:', error.stack);
         showError('WebSocket connection failed. Please try again later.');
     });
 
-    //client history part.
-
+    // Function to get a cookie value by name
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -45,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         socket.emit('cookie');
     }
 
+    // Event listener for receiving client info request
     socket.on('client-info', function (message) {
         displayMessage(message, 'bot-message');
         document.getElementById('sendButton').removeEventListener('click', sendMessage);
@@ -53,13 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
             setCookie('userCookie', cookie, 7); // Set cookie for 7 days
             displayMessage(cookie, 'user-message');
             document.getElementById('userInput').value = '';
-            if (!cookie) return; // Prevent sending empty messages  
+            if (!cookie) return; // Prevent sending empty messages
             socket.emit('got_cookie', cookie);
         }, { once: true });
 
         document.getElementById('sendButton').addEventListener('click', sendMessage);
     });
 
+    // Function to display messages in the chat window
     async function displayMessage(message, className) {
         const chatWindow = document.getElementById('chat-window');
         const messageDiv = document.createElement('div');
@@ -69,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
+    // Function to handle sending messages
     async function sendMessage() {
         const prompt = document.getElementById('userInput').value;
         if (!prompt) return; // Prevent sending empty messages
@@ -79,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         socket.emit('BotRequest', prompt); // Send message to the server
     }
 
+    // Function to display errors
     function showError(message) {
         displayMessage(message, 'error-message');
     }

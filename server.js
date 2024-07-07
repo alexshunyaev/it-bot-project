@@ -18,6 +18,7 @@ const home = JSON.parse(fs.readFileSync('train/website_home_data.json', 'utf8'))
 const contacts = JSON.parse(fs.readFileSync('train/website_contacts_data.json', 'utf8'));
 const about = JSON.parse(fs.readFileSync('train/website_about_data.json', 'utf8'));
 
+// Serve the main HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
 });
@@ -67,11 +68,9 @@ io.on('connection', async (socket) => {
                 }
             });
 
-
-
             socket.emit('BotResponse', response.data.choices[0].message.content);
         } catch (error) {
-            //console.error(error); commented out this, cause it's imposssible to monitor server logs with such long error messages
+            //console.error(error); commented out this, cause it's impossible to monitor server logs with such long error messages
             console.log('Error communicating with ChatGPT');
             socket.emit('BotError', 'Error communicating with ChatGPT');
         }
@@ -83,6 +82,7 @@ io.on('connection', async (socket) => {
     });
 });
 
+// Start the server
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
