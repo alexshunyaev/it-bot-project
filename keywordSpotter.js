@@ -1,4 +1,3 @@
-
 function keywordSpotting(prompt) {
     const keywordMap = { //keyword map, answers to the given keywords
         //Soft responces
