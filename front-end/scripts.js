@@ -23,49 +23,42 @@ document.addEventListener('DOMContentLoaded', function () {
         showError(message);
     });
 
-
-
-    //////////////////////////////////////////////КУКИ
-
-        // Function to get a cookie value by name
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
+    // Function to get a cookie value by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
     
-        // Function to set a cookie
-        function setCookie(name, value, days) {
-            const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            const expires = `expires=${d.toUTCString()}`;
-            document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=None; Secure`;
-        }
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = `expires=${d.toUTCString()}`;
+        document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=None; Secure`;
+    }
     
-        // Check if cookie is undefined or empty
-        let cookieValue = getCookie('userCookie');
-        if (cookieValue === undefined || cookieValue === '') {
-            socket.emit('cookie');
-        }
+    // Check if cookie is undefined or empty
+    let cookieValue = getCookie('userCookie');
+    if (cookieValue === undefined || cookieValue === '') {
+        socket.emit('cookie');
+    }
     
-        // Event listener for receiving client info request
-        socket.on('client-info', function (message) {
-            displayMessage(message, 'bot-message');
-            document.getElementById('sendButton').removeEventListener('click', sendMessage);
-            document.getElementById('sendButton').addEventListener('click', function () {
-                const cookie = document.getElementById('userInput').value;
-                setCookie('userCookie', cookie, 7); // Set cookie for 7 days
-                displayMessage(cookie, 'user-message');
-                document.getElementById('userInput').value = '';
-                if (!cookie) return; // Prevent sending empty messages
-                socket.emit('got_cookie', cookie);
-            }, { once: true });
+    // Event listener for receiving client info request
+    socket.on('client-info', function (message) {
+        displayMessage(message, 'bot-message');
+        document.getElementById('sendButton').removeEventListener('click', sendMessage);
+        document.getElementById('sendButton').addEventListener('click', function () {
+            const cookie = document.getElementById('userInput').value;
+            setCookie('userCookie', cookie, 7); // Set cookie for 7 days
+            displayMessage(cookie, 'user-message');
+            document.getElementById('userInput').value = '';
+            if (!cookie) return; // Prevent sending empty messages
+            socket.emit('got_cookie', cookie);
+        }, { once: true });
     
-            document.getElementById('sendButton').addEventListener('click', sendMessage);
-        });
-
-
-
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+    });
 
     // Function to display messages in the chat window
     async function displayMessage(message, className) {
