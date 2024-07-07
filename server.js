@@ -17,13 +17,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
 });
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-
-const studios = JSON.parse(fs.readFileSync('train/data.json', 'utf8'));
-const home = JSON.parse(fs.readFileSync('train/website_home_data.json', 'utf8'));
-const contacts = JSON.parse(fs.readFileSync('train/website_contacts_data.json', 'utf8'));
-const about = JSON.parse(fs.readFileSync('train/website_about_data.json', 'utf8'));
-
 app.use(bodyParser.json());
 app.use(cors({
     origin: '*',

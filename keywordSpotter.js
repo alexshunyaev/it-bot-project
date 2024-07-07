@@ -1,4 +1,47 @@
+// List of venues and their capacities
+const venues = {
+    'Superstudio Più': [
+        { name: 'Central Point', size: 5000 },
+        { name: 'Art Point', size: 2000 },
+        { name: 'Gallery', size: 1000 },
+        { name: 'Daylight', size: 800 },
+        { name: 'Lounge', size: 400 },
+        { name: 'Club House', size: 300 },
+        { name: 'Conference Room', size: 200 },
+        { name: 'Meeting Room', size: 150 },
+        { name: 'Studio', size: 100 },
+        { name: 'Terrace', size: 50 }
+    ],
+    'Superstudio Maxi': [
+        { name: 'Maxi Hall', size: 6000 },
+        { name: 'Maxi Gallery', size: 2000 },
+        { name: 'Maxi Lounge', size: 1500 },
+        { name: 'Maxi Studio', size: 500 }
+    ],
+    'Superstudio Village': [
+        { name: 'Village Hall', size: 5000 },
+        { name: 'Village Studio', size: 2000 },
+        { name: 'Village Lounge', size: 1000 }
+    ],
+    'Superstudio 13': [
+        { name: 'Studio 1', size: 200 },
+        { name: 'Studio 2', size: 200 },
+        { name: 'Studio 3', size: 150 },
+        { name: 'Studio 4', size: 150 },
+        { name: 'Studio 5', size: 100 },
+        { name: 'Studio 6', size: 100 },
+        { name: 'Studio 7', size: 100 },
+        { name: 'Studio 8', size: 100 },
+        { name: 'Studio 9', size: 100 },
+        { name: 'Studio 10', size: 100 },
+        { name: 'Studio 11', size: 100 },
+        { name: 'Studio 12', size: 100 },
+        { name: 'Studio 13', size: 50 }
+    ]
+};
 
+
+// Function that receives a user prompt and identifies keywords within it
 function keywordSpotting(prompt) {
     const keywordMap = { //keyword map, answers to the given keywords
         //Soft responces
