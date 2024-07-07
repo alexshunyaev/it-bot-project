@@ -1,6 +1,6 @@
 This is a project for Italian company which will allow managers not to work with all the inquiries from customers.
 
-The chat bot can found [here](https://superstudiochatroom.biz/) 
+The chat bot can be found [here](https://superstudiochatroom.biz/)
 
 
 
@@ -8,8 +8,8 @@ The chat bot can found [here](https://superstudiochatroom.biz/)
 
 **Prerequisites**
 
-*Node.js* installed on your machine.\
-An OpenAI API key.
+- `Node.js` installed on your machine.
+- An OpenAI API key.
 
 ### **Offline Installation**
 
@@ -23,6 +23,14 @@ An OpenAI API key.
 - The structure should look like this:
 ```Copy code
 project-directory/
+├──train/
+│   ├── chat.py
+│   ├── data.json
+│   ├── inquiries.jsonl
+│   ├── website_about_data.json
+│   ├── website_contacts_data.json
+│   ├── website_home_data.json
+│
 ├── front-end/
 │   ├── index.html
 │   ├── styles.css
@@ -48,11 +56,7 @@ OPENAI_API_KEY=your_openai_api_key
 PORT=3000
 ```
 
-5. **Prepare Data Files**
-
-- Create a `train` directory and place your JSON data files (`data.json`, `website_home_data.json`, `website_contacts_data.json`, `website_about_data.json`) inside it.
-
-6. **Run the Server**
+5. **Run the Server**
 
 - Start your server by running:
 ```bash
