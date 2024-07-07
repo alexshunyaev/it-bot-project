@@ -13,6 +13,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 
+// Serve the main HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
 });
@@ -31,16 +32,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-//app.use(bodyParser.json());
-//app.use(cors());
-
-//app.use((req, res, next) => {
-//    res.header('Access-Control-Allow-Origin', '*');
-//    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//    next();
-//});
-
-// Serve static files from the "public" directory
+// Serve static files from the "front-end" directory
 app.use(express.static(path.join(__dirname, 'front-end')));
 
 const keywordSpotting = require('./keywordSpotter');
@@ -48,30 +40,53 @@ const keywordSpotting = require('./keywordSpotter');
 io.on('connection', (socket) => {
     console.log('New client connected');
 
+
+
+    //////////////////////////////////////////////КУКИ
+    socket.on('cookie', () => {
+        socket.emit('client-info', 'Seems like you are new here. Please provide your name and phone number, so we can assist you better.');
+    });
+
+    socket.on('got_cookie', (cookie) => {
+        console.log('Cookie set:', cookie);
+        socket.emit('BotResponse', 'Thank you for providing your contact information. How can I assist you today?');
+        try {
+            fs.appendFileSync('client_contact.txt', `${JSON.stringify(cookie)}\n`);
+        } catch (error) {
+            console.error('Error writing to file:', error);
+        }
+    });
+
+
+
+
+
+
     socket.on('BotRequest', async (prompt) => { //Waiting for the client to send a message
         console.log(prompt);
 
-        //чекает на кейворды в prompt, высирает пару на кейворд из keywordSpotter.js
+        // Checks if there are any jeywords in the prompt
         const commands = keywordSpotting(prompt);
         console.log('Identified keywords:', commands);
         console.log('Done!');
-        if (commands != 'keywords_not_found') {
+        if (commands != 'keywords_not_found') {    // Handling the case when there are keywords in the prompt
             for (let step = 0; step < commands.length; step++) {
                 socket.emit('BotResponse', commands[step]);
             }
         } else {
-            // HARD FALLBACK (?)
+            // Hard fallback if no keywords were identified
             socket.emit('BotResponse', 'I could understand the question. Can you repeat please?');
         }
 
     });
 
-    //We don't really need this, but it logs when a client disconnects
+    // Logs when a client disconnects
     socket.on('disconnect', () => {  
         console.log('Client disconnected');
     });
 });
 
+// Start the server
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
