@@ -1,7 +1,7 @@
 
 function keywordSpotting(prompt) {
-    const keywordMap = {
-
+    const keywordMap = { //keyword map, answers to the given keywords
+        //Soft responces
         'available': 'To find out if the venue is available, we recommend you contact our manager.',
         'occupied': 'To find out if the venue is available, we recommend you contact our manager.',
         'price': 'Price on the venue rent depends on many factors such as date, time, and type of occasion, so we recommend you contact our manager.',
@@ -10,7 +10,7 @@ function keywordSpotting(prompt) {
         'date': 'Unfortunately, the information quickly changes so I suggest you give us a call.',
         'times': 'Unfortunately, the information quickly changes so I suggest you give us a call.',
 
-
+        //Answers to the questions with keywords
         'capacity': 'Most venues have different capacities for different types of occasions: dinner, standing, and sitting.',
         'vr': 'Our company rents out VR sets and other equipment for virtual reality events.',
         'virtual reality': 'Our company rents out VR sets and other equipment for virtual reality events.',
@@ -40,6 +40,7 @@ function keywordSpotting(prompt) {
         'water access': 'All our venues are equipped with at least one waterpoint.'
     };
 
+    //Returning identifies keywords, if none found - returning keywords_not_found
     const foundCommands = Object.keys(keywordMap)
         .filter(keyword => prompt.toLowerCase().includes(keyword))
         .map(keyword => keywordMap[keyword]);

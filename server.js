@@ -40,14 +40,11 @@ const keywordSpotting = require('./keywordSpotter');
 io.on('connection', (socket) => {
     console.log('New client connected');
 
-
-
-    //////////////////////////////////////////////КУКИ
-    socket.on('cookie', () => {
+    socket.on('cookie', () => { 
         socket.emit('client-info', 'Seems like you are new here. Please provide your name and phone number, so we can assist you better.');
     });
 
-    socket.on('got_cookie', (cookie) => {
+    socket.on('got_cookie', (cookie) => {   
         console.log('Cookie set:', cookie);
         socket.emit('BotResponse', 'Thank you for providing your contact information. How can I assist you today?');
         try {
@@ -56,11 +53,6 @@ io.on('connection', (socket) => {
             console.error('Error writing to file:', error);
         }
     });
-
-
-
-
-
 
     socket.on('BotRequest', async (prompt) => { //Waiting for the client to send a message
         console.log(prompt);
@@ -74,7 +66,7 @@ io.on('connection', (socket) => {
                 socket.emit('BotResponse', commands[step]);
             }
         } else {
-            // Hard fallback if no keywords were identified
+            // Hard fallback if no keywords were found
             socket.emit('BotResponse', 'I could understand the question. Can you repeat please?');
         }
 
