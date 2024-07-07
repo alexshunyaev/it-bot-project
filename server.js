@@ -6,7 +6,6 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');  
 require('dotenv').config();
-
 const port = 3000;
 const app = express();
 const server = http.createServer(app);
@@ -67,7 +66,7 @@ io.on('connection', (socket) => {
             }
         } else {
             // Hard fallback if no keywords were found
-            socket.emit('BotResponse', 'I could understand the question. Can you repeat please?');
+            socket.emit('BotResponse', 'I could not understand the question. Can you repeat please?');
         }
 
     });

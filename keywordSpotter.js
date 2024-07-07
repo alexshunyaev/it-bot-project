@@ -1,4 +1,47 @@
+// List of venues and their capacities
+const venues = {
+    'Superstudio Più': [
+        { name: 'Central Point', size: 5000 },
+        { name: 'Art Point', size: 2000 },
+        { name: 'Gallery', size: 1000 },
+        { name: 'Daylight', size: 800 },
+        { name: 'Lounge', size: 400 },
+        { name: 'Club House', size: 300 },
+        { name: 'Conference Room', size: 200 },
+        { name: 'Meeting Room', size: 150 },
+        { name: 'Studio', size: 100 },
+        { name: 'Terrace', size: 50 }
+    ],
+    'Superstudio Maxi': [
+        { name: 'Maxi Hall', size: 6000 },
+        { name: 'Maxi Gallery', size: 2000 },
+        { name: 'Maxi Lounge', size: 1500 },
+        { name: 'Maxi Studio', size: 500 }
+    ],
+    'Superstudio Village': [
+        { name: 'Village Hall', size: 5000 },
+        { name: 'Village Studio', size: 2000 },
+        { name: 'Village Lounge', size: 1000 }
+    ],
+    'Superstudio 13': [
+        { name: 'Studio 1', size: 200 },
+        { name: 'Studio 2', size: 200 },
+        { name: 'Studio 3', size: 150 },
+        { name: 'Studio 4', size: 150 },
+        { name: 'Studio 5', size: 100 },
+        { name: 'Studio 6', size: 100 },
+        { name: 'Studio 7', size: 100 },
+        { name: 'Studio 8', size: 100 },
+        { name: 'Studio 9', size: 100 },
+        { name: 'Studio 10', size: 100 },
+        { name: 'Studio 11', size: 100 },
+        { name: 'Studio 12', size: 100 },
+        { name: 'Studio 13', size: 50 }
+    ]
+};
 
+
+// Function that receives a user prompt and identifies keywords within it
 function keywordSpotting(prompt) {
     const keywordMap = { //keyword map, answers to the given keywords
         //Soft responces
@@ -57,6 +100,34 @@ function keywordSpotting(prompt) {
         .filter(keyword => prompt.toLowerCase().includes(keyword))
         .map(keyword => keywordMap[keyword]);
 
+    // Matching number of poeple in prompt
+    const numberPeopleRegex = /(\d+)\s+people/gi;
+    let numPeople = null;
+    let match;
+    while ((match = numberPeopleRegex.exec(prompt)) !== null) {
+        numPeople = parseInt(match[1]); // Store the matched number as an integer in numPeople
+    }
+
+    if (numPeople != null) {    // If a number of people for the event in not empty, returning a list of suitable venues
+        const fittingVenues = [];
+
+        for (const venueType in venues) {
+            venues[venueType].forEach(venue => {
+                if (venue.size >= numPeople && venue.size <= numPeople * 10) {
+                    fittingVenues.push(`${venue.name} (${venue.size} m²)`);
+                }
+            });
+        }
+
+        if (fittingVenues.length === 0) {
+            foundCommands.push(`No venues found that can accommodate ${numPeople} people.`);
+        } else {
+            const venuesString = fittingVenues.join('\n');
+            foundCommands.push(`Venues that can accommodate ${numPeople} people:\n${venuesString}`);
+        }
+    }
+    
+    //If no keywords found, returning keywords_not_found
     const result = foundCommands.length === 0 ? 'keywords_not_found' : foundCommands;
     return result;
 }
