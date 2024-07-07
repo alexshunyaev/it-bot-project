@@ -37,8 +37,7 @@ io.on('connection', async (socket) => {
     console.log('Client ID:', socket.id);
     console.log('Total clients connected:', io.engine.clientsCount);
 
-    socket.on('cookie', (cookie) => {
-        console.log('Cookie:', cookie);
+    socket.on('cookie', () => {
         socket.emit('client-info', 'Seems like you are new here. Please provide your name and phone number, so we can assist you better.');
     });
 

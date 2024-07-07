@@ -42,8 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Check if cookie is undefined or empty
     let cookieValue = getCookie('userCookie');
     if (cookieValue === undefined || cookieValue === '') {
-        console.log('Cookie is undefined or empty');
-        socket.emit('cookie', cookieValue);
+        socket.emit('cookie');
     }
 
     socket.on('client-info', function (message) {
