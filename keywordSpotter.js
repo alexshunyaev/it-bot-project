@@ -1,3 +1,4 @@
+
 function keywordSpotting(prompt) {
     const keywordMap = { //keyword map, answers to the given keywords
         //Soft responces
@@ -56,6 +57,34 @@ function keywordSpotting(prompt) {
         .filter(keyword => prompt.toLowerCase().includes(keyword))
         .map(keyword => keywordMap[keyword]);
 
+    // Matching number of poeple in prompt
+    const numberPeopleRegex = /(\d+)\s+people/gi;
+    let numPeople = null;
+    let match;
+    while ((match = numberPeopleRegex.exec(prompt)) !== null) {
+        numPeople = parseInt(match[1]); // Store the matched number as an integer in numPeople
+    }
+
+    if (numPeople != null) {    // If a number of people for the event in not empty, returning a list of suitable venues
+        const fittingVenues = [];
+
+        for (const venueType in venues) {
+            venues[venueType].forEach(venue => {
+                if (venue.size >= numPeople && venue.size <= numPeople * 10) {
+                    fittingVenues.push(`${venue.name} (${venue.size} m²)`);
+                }
+            });
+        }
+
+        if (fittingVenues.length === 0) {
+            foundCommands.push(`No venues found that can accommodate ${numPeople} people.`);
+        } else {
+            const venuesString = fittingVenues.join('\n');
+            foundCommands.push(`Venues that can accommodate ${numPeople} people:\n${venuesString}`);
+        }
+    }
+
+    //If no keywords found, returning keywords_not_found
     const result = foundCommands.length === 0 ? 'keywords_not_found' : foundCommands;
     return result;
 }
